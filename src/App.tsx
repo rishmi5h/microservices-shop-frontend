@@ -1,30 +1,42 @@
-const Link = (props: JSX.IntrinsicElements['a']) => (
-  <a
-    className="text-pink-500 underline hover:no-underline dark:text-pink-400"
-    {...props}
-  />
-);
+import { Route, Routes } from 'react-router-dom';
+import Footer from './components/Footer.tsx';
+import Header from './components/Header.tsx';
+import { AuthProvider } from './context/AuthContext.tsx';
+import { CartProvider } from './context/CartContext.tsx';
+import Cart from './pages/Cart.tsx';
+import Home from './pages/Home.tsx';
+import Login from './pages/Login.tsx';
+import Orders from './pages/Orders.tsx';
+import ProductDetails from './pages/ProductDetails.tsx';
+import Profile from './pages/Profile.tsx';
+import Register from './pages/Register.tsx';
+import Shop from './pages/Shop.tsx';
+import Wishlist from './pages/Wishlist.tsx';
 
-export default function App() {
+function App() {
   return (
-    <div className="mx-auto my-8 mt-10 w-8/12 rounded border border-gray-200 p-4 shadow-md dark:border-neutral-600 dark:bg-neutral-800 dark:shadow-none">
-      <h1 className="mb-4 text-4xl">Welcome</h1>
-      <p className="my-4">
-        <em>Minimal, fast, sensible defaults.</em>
-      </p>
-      <p className="my-4">
-        Using <Link href="https://vitejs.dev/">Vite</Link>,{' '}
-        <Link href="https://reactjs.org/">React</Link>,{' '}
-        <Link href="https://www.typescriptlang.org/">TypeScript</Link> and{' '}
-        <Link href="https://tailwindcss.com/">Tailwind</Link>.
-      </p>
-      <p className="my-4">
-        Change{' '}
-        <code className="border-1 2py-1 rounded border border-pink-500 bg-neutral-100 px-1 font-mono text-pink-500 dark:border-pink-400 dark:bg-neutral-700 dark:text-pink-400">
-          src/App.tsx
-        </code>{' '}
-        for live updates.
-      </p>
-    </div>
+    <AuthProvider>
+      <CartProvider>
+        <div className="flex min-h-screen flex-col">
+          <Header />
+          <main className="container mx-auto flex-grow px-4 py-8">
+            <Routes>
+              <Route element={<Home />} path="/" />
+              <Route element={<Shop />} path="/shop" />
+              <Route element={<ProductDetails />} path="/product/:id" />
+              <Route element={<Cart />} path="/cart" />
+              <Route element={<Wishlist />} path="/wishlist" />
+              <Route element={<Login />} path="/login" />
+              <Route element={<Register />} path="/register" />
+              <Route element={<Profile />} path="/profile" />
+              <Route element={<Orders />} path="/orders" />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </CartProvider>
+    </AuthProvider>
   );
 }
+
+export default App;
